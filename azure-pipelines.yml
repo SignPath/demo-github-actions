@@ -1,0 +1,46 @@
+# see /README.md
+
+trigger:
+- main
+
+pool:
+  vmImage: windows-2022
+
+jobs:
+- job: Build_and_Sign
+  workspace:
+    clean: all
+  steps:
+
+  - task: PowerShell@2
+    displayName: Build
+    inputs:
+      errorActionPreference: 'stop'
+      pwsh: true
+      filePath: './src/Build.ps1'
+
+  - task: PowerShell@2
+    displayName: Create SBOM
+    inputs:
+      errorActionPreference: 'stop'
+      pwsh: true
+      filePath: './sbom/Create-SBOM.ps1'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)/_BuildResult-unsigned'
+      ArtifactName: 'unsigned-artifact'
+
+  - task: SubmitSigningRequest@1
+    inputs:
+      serviceConnectionName: 'SignPath Demo'
+      projectSlug: 'Demo_Application'
+      signingPolicySlug: 'release-signing'
+      azureDevOpsArtifactName: 'unsigned-artifact'
+      waitForCompletion: true
+      outputArtifactDirectory: '$(Build.SourcesDirectory)/demo-application-signed'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)/demo-application-signed'
+      ArtifactName: 'signed-artifact'
