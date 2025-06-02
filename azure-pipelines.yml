@@ -1,7 +1,6 @@
 # see /README.md
 
-trigger:
-- main
+trigger: none
 
 pool:
   vmImage: windows-2022
@@ -27,20 +26,24 @@ jobs:
       filePath: './sbom/Create-SBOM.ps1'
 
   - task: PublishBuildArtifacts@1
+    displayName: Upload unsigned artifact
     inputs:
       PathtoPublish: '$(Build.SourcesDirectory)/_BuildResult-unsigned'
       ArtifactName: 'unsigned-artifact'
 
   - task: SubmitSigningRequest@1
+    displayName: Sign
     inputs:
       serviceConnectionName: 'SignPath Demo'
       projectSlug: 'Demo_Application'
       signingPolicySlug: 'release-signing'
+      artifactConfigurationSlug: 'azure-devops'
       azureDevOpsArtifactName: 'unsigned-artifact'
       waitForCompletion: true
       outputArtifactDirectory: '$(Build.SourcesDirectory)/demo-application-signed'
 
   - task: PublishBuildArtifacts@1
+    displayName: Upload signed artifact
     inputs:
       PathtoPublish: '$(Build.SourcesDirectory)/demo-application-signed'
       ArtifactName: 'signed-artifact'

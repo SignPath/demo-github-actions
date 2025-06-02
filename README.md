@@ -1,10 +1,18 @@
-# Using SignPath with GitHub Actions
+# Using SignPath with GitHub Actions or Azure DevOps
 
-This project demonstrates signing artifacts using [SignPath](https://about.signpath.io) from GitHub Actions workflows.
+This project demonstrates signing artifacts using [SignPath](https://about.signpath.io) from GitHub Actions workflows or Azure DevOps pipelines.
+
+## GitHub
 
 Signing is invoked in the `sign` step of [.github/workflows/build-and-sign.yml](.github/workflows/build-and-sign.yml). 
 
-See [github.com/SignPath/github-actions](https://github.com/SignPath/github-actions) for a full documentation of SignPath actions.
+See [the documentation](https://about.signpath.io/documentation/trusted-build-systems/github) for a full documentation of the integration.
+
+## Azure DevOps
+
+Signing is invoked in the `Sign` step of [azure-pipelines.yml](azure-pipelines.yml).
+
+See [the documentation](https://about.signpath.io/documentation/trusted-build-systems/azure-devops) for a full documentation of the integration.
 
 ## Policy demonstrations
 
@@ -22,13 +30,20 @@ To use this demo with your own SignPath subscription, you need to get access to 
 * In your SignPath organization, create a project with 
   * Slug: `Demo_Application` 
   * Repository URLs: Your forked GitHub repository, e.g. `https://github.com/my/github-actions-demo`
-  * Trusted Build Systems: Link _GitHub.com_
+  * Trusted Build Systems: Link _GitHub.com_ or _AzureDevOps.com_ respectively
   * Add the following artifact configuration as default: [.signpath/artifact-configurations/default.xml](.signpath/artifact-configurations/default.xml)
   * Add a `test-signing` signing policy
   * Add a `release-signing` signing policy with origin verification enabled and restricted to `main` and `release/*` branches
+
+### GitHub configuration
+
 * Create an [API token] in SignPath and add it as a GitHub Actions secret `SIGNPATH_API_TOKEN` (make sure the user is a submitter in your signing policies)
 * Add your SignPath _Organization ID_ as a GitHub Actions variable `SIGNPATH_ORGANIZATION_ID` (click your organization's name at the upper right corner)
 * Enable Actions for your GitHub repository
+
+### Azure DevOps configuration
+
+* Install the extension and add a service connection to your project
 
 
 [signing policy]: https://about.signpath.io/documentation/projects#signing-policies
