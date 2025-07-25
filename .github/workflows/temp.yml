@@ -1,0 +1,24 @@
+name: build-and-sign
+run-name: Building and signing the software
+on: 
+  push:
+
+jobs:
+  build_and_sign:
+    runs-on: ubuntu-latest
+    steps:
+
+    # ... building the software
+    
+    - name: sign
+      uses: signpath/github-action-submit-signing-request@v1
+      with:
+        api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+        organization-id: '${{ vars.SIGNPATH_ORGANIZATION_ID }}'
+        project-slug: 'MyApplication'
+        signing-policy-slug:  '${{ env.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        github-artifact-id:  "${{steps.upload-unsigned-artifact.outputs.artifact-id}}"
+        wait-for-completion: true
+        output-artifact-directory: './myapplication-signed'
+
+    # .. deploy steps
