@@ -1,4 +1,4 @@
-name: build-and-sign
+name: temp-build-and-sign
 run-name: Building and signing the software
 on: 
   push:
