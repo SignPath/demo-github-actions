@@ -20,6 +20,7 @@ This project demonstrates the following attempts to violate SignPath policies an
 
 * This step selects the appropriate [signing policy] depending on the branch name. The actual branch must match the branch condition of the selected signing policy. The [`attempt-signing-release`] branch demonstrates how SignPath will detect incorrect attempts.
 * The [`release/malicious-dll`] branch demonstrates how SignPath will detect content-level violations of the [artifact configuration].
+* The `release/fewer-restrictions` branch demonstrates that a build from a branch with insecure branch rulesets is not accepted, as set in the [pipeline policy].
 
 ## Configuration
 
@@ -46,9 +47,10 @@ To use this demo with your own SignPath subscription, you need to get access to 
 * Install the extension and add a service connection to your project
 
 
-[signing policy]: https://about.signpath.io/documentation/projects#signing-policies
-[artifact configuration]: https://about.signpath.io/documentation/projects#artifact-configurations
+[signing policy]: https://docs.signpath.io/projects#signing-policies
+[artifact configuration]: https://docs.signpath.io/projects#artifact-configurations
+[pipeline-policy]: https://docs.signpath.io/pipeline-policies/
 [`attempt-signing-release`]: https://github.com/SignPath/github-actions-demo/blob/feature/attempt-signing-release/.github/workflows/build-and-sign.yml#L46
 [`release/malicious-dll`]: https://github.com/SignPath/github-actions-demo/blob/release/malicious-dll/src/Build.ps1#L4
 
-[API token]: https://about.signpath.io/documentation/users#interactive-api-token
+[API token]: https://docs.signpath.io/users#interactive-api-token
