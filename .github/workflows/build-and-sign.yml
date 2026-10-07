@@ -46,7 +46,7 @@ jobs:
       with:
         api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
         organization-id: '${{ vars.SIGNPATH_ORGANIZATION_ID }}'
-        project-slug: 'Demo_Application'
+        project-slug: 'Demo_Application_GitHub'
         signing-policy-slug:  '${{ env.SIGNPATH_SIGNING_POLICY_SLUG }}'
         github-artifact-id:  "${{steps.upload-unsigned-artifact.outputs.artifact-id}}"
         wait-for-completion: true
